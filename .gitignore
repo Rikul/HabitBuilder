@@ -95,3 +95,5 @@ lint/tmp/
 
 .git-of-theseus
 .bitrise.secrets.yml
+
+GEMINI.md
