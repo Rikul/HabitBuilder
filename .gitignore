@@ -97,3 +97,4 @@ lint/tmp/
 .bitrise.secrets.yml
 
 GEMINI.md
+.idea
