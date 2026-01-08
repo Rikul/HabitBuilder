@@ -22,4 +22,10 @@ dependencies {
 
     implementation libs.showkase.annotation
     kspDebug libs.showkase.processor
+  api 'androidx.compose.foundation:foundation-layout-android:1.5.4'
+  implementation 'androidx.lifecycle:lifecycle-common:2.6.2'
+  implementation 'androidx.annotation:annotation:1.6.0'
+  implementation 'androidx.compose.foundation:foundation-android:1.5.4'
+  api 'com.kizitonwose.calendar:core:2.4.0'
+  implementation 'androidx.compose.material:material-icons-core-android:1.5.4'
 }

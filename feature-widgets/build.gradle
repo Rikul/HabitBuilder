@@ -26,4 +26,16 @@ dependencies {
     api(libs.androidx.glance.appwidget) {
         exclude group: "com.google.android.material", module: "material"
     }
+  implementation 'androidx.core:core:1.10.0'
+  implementation 'com.google.dagger:hilt-core:2.51.1'
+  implementation 'androidx.annotation:annotation:1.6.0'
+  api 'androidx.compose.material3:material3:1.1.2'
+  api 'com.google.dagger:dagger:2.51.1'
+  api 'androidx.compose.runtime:runtime-android:1.5.4'
+  implementation 'androidx.compose.ui:ui-graphics-android:1.5.4'
+  api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+  api 'androidx.glance:glance:1.1.0'
+  implementation 'androidx.core:core-ktx:1.10.0'
+  implementation 'androidx.compose.ui:ui-unit-android:1.5.4'
+  api 'javax.inject:javax.inject:1'
 }

@@ -29,4 +29,13 @@ dependencies {
     testImplementation libs.kotlin.coroutines.test
     testImplementation libs.mockito.kotlin
     testImplementation libs.turbine
+  implementation 'com.google.dagger:hilt-core:2.51.1'
+  implementation 'androidx.compose.foundation:foundation-layout-android:1.5.4'
+  implementation 'androidx.annotation:annotation:1.6.0'
+  api 'com.google.dagger:dagger:2.51.1'
+  testImplementation 'org.mockito:mockito-core:5.12.0'
+  implementation 'com.kizitonwose.calendar:core:2.4.0'
+  api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+  implementation 'androidx.compose.foundation:foundation-android:1.5.4'
+  api 'javax.inject:javax.inject:1'
 }

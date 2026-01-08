@@ -15,4 +15,5 @@ dependencies {
     api libs.kotlin.coroutines.test
     implementation libs.hilt.testing
     implementation libs.androidx.rules
+  implementation 'androidx.test:monitor:1.8.0'
 }

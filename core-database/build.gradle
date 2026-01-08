@@ -35,4 +35,11 @@ dependencies {
     androidTestImplementation libs.kotlin.coroutines.test
     androidTestImplementation libs.androidx.junit.ext
     androidTestImplementation libs.turbine
+  implementation 'com.google.dagger:hilt-core:2.51.1'
+  implementation 'androidx.collection:collection:1.1.0'
+  implementation 'androidx.sqlite:sqlite:2.4.0'
+  api 'com.google.dagger:dagger:2.51.1'
+  androidTestImplementation 'junit:junit:4.13.2'
+  androidTestImplementation 'androidx.test:core:1.6.1'
+  implementation 'androidx.room:room-common:2.6.1'
 }
