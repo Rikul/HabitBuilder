@@ -25,6 +25,7 @@ dependencies {
     implementation libs.reorderable
     implementation libs.androidx.activity.compose
     implementation libs.hilt.android
+    androidTestImplementation project(':feature-misc')
     ksp libs.hilt.compiler
 
     implementation libs.showkase.annotation
