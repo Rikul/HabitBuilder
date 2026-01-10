@@ -62,6 +62,7 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 0,
             archived = false,
+            notifications_enabled = false,
             notes = "Habit notes"
         )
         val newHabit2 = Habit(
@@ -69,6 +70,7 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 1,
             archived = false,
+            notifications_enabled = false,
             notes = ""
         )
 
@@ -87,6 +89,7 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Blue,
             order = 0,
             archived = false,
+            notifications_enabled = false,
             notes = "",
             time = time
         )
@@ -107,7 +110,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 0,
             archived = false,
-            ""
+            notifications_enabled = false,
+            notes = ""
         )
         val action1 = Action(
             habit_id = habitId,
@@ -135,6 +139,7 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 0,
             archived = false,
+            notifications_enabled = false,
             notes = ""
         )
         val habit2 = Habit(
@@ -142,6 +147,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 1,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val habit3 = Habit(
@@ -149,6 +156,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 2,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val action1 = Action(
@@ -184,6 +193,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 0,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val action1 = Action(
@@ -222,6 +233,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 0,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val habit2 = Habit(
@@ -230,6 +243,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 1,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val habit3 = Habit(
@@ -238,6 +253,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Yellow,
             order = 2,
             archived = true,
+            notifications_enabled = false,
+
             notes = ""
         )
         val action1 = Action(
@@ -282,6 +299,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 0,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val action1 = Action(
@@ -313,6 +332,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 5,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val newHabit2 = Habit(
@@ -320,6 +341,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 1,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val newHabit3 = Habit(
@@ -327,6 +350,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 2,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val newHabit4 = Habit(
@@ -334,6 +359,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Yellow,
             order = 0,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
 
@@ -357,6 +384,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 5,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val newHabit2 = Habit(
@@ -365,6 +394,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 1,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val newHabit3 = Habit(
@@ -373,6 +404,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 2,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val newHabit4 = Habit(
@@ -381,6 +414,8 @@ class HabitEntityTest : BaseInstrumentedTest() {
             color = Habit.Color.Yellow,
             order = 0,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
 

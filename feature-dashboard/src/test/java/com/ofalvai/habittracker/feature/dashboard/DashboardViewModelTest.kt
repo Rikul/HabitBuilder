@@ -64,9 +64,9 @@ class DashboardViewModelTest {
     fun `Given habits without actions When VM loaded Then list contains habits with empty history`() = runTest {
         // Given
         given(dao.getActiveHabitsWithActions()).willReturn(flowOf(listOf(
-            HabitWithActionsEntity(HabitEntity(0, "Meditation", ColorEntity.Green, 0, false, ""), emptyList()),
-            HabitWithActionsEntity(HabitEntity(1, "Running", ColorEntity.Green, 1, false, ""), emptyList()),
-            HabitWithActionsEntity(HabitEntity(2, "Workout", ColorEntity.Green, 2, false, ""), emptyList())
+            HabitWithActionsEntity(HabitEntity(0, "Meditation", ColorEntity.Green, 0, false, notifications_enabled = false,notes=""), emptyList()),
+            HabitWithActionsEntity(HabitEntity(1, "Running", ColorEntity.Green, 1, false,notifications_enabled = false,notes= ""), emptyList()),
+            HabitWithActionsEntity(HabitEntity(2, "Workout", ColorEntity.Green, 2, false,notifications_enabled = false,notes= ""), emptyList())
         )))
 
         // When
@@ -89,9 +89,9 @@ class DashboardViewModelTest {
     fun `Given habits and actions in DB When Flow is observed Then collector is notified once`() = runTest {
         // Given
         given(dao.getActiveHabitsWithActions()).willReturn(flowOf((listOf(
-            HabitWithActionsEntity(HabitEntity(0, "Meditation", ColorEntity.Green, 0, false, ""), emptyList()),
-            HabitWithActionsEntity(HabitEntity(1, "Running", ColorEntity.Green, 1, false, ""), emptyList()),
-            HabitWithActionsEntity(HabitEntity(2, "Workout", ColorEntity.Green, 2, false, ""), emptyList())
+            HabitWithActionsEntity(HabitEntity(0, "Meditation", ColorEntity.Green, 0, false, notifications_enabled = false,notes=""), emptyList()),
+            HabitWithActionsEntity(HabitEntity(1, "Running", ColorEntity.Green, 1, false, notifications_enabled = false,notes=""), emptyList()),
+            HabitWithActionsEntity(HabitEntity(2, "Workout", ColorEntity.Green, 2, false, notifications_enabled = false,notes=""), emptyList())
         ))))
 
         // When
@@ -118,9 +118,9 @@ class DashboardViewModelTest {
         given(dao.getActiveHabitsWithActions()).willReturn(mockFlow)
 
         val initialHabitWithActions = listOf(
-            HabitWithActionsEntity(HabitEntity(0, "Meditation", ColorEntity.Green, 0, false, ""), emptyList()),
-            HabitWithActionsEntity(HabitEntity(1, "Running", ColorEntity.Green, 1, false, ""), emptyList()),
-            HabitWithActionsEntity(HabitEntity(2, "Workout", ColorEntity.Green, 2, false, ""), emptyList())
+            HabitWithActionsEntity(HabitEntity(0, "Meditation", ColorEntity.Green, 0, false, notifications_enabled = false, notes=""), emptyList()),
+            HabitWithActionsEntity(HabitEntity(1, "Running", ColorEntity.Green, 1, false,notifications_enabled = false,notes= ""), emptyList()),
+            HabitWithActionsEntity(HabitEntity(2, "Workout", ColorEntity.Green, 2, false, notifications_enabled = false, notes=""), emptyList())
         )
         val modifiedHabitWithActions = initialHabitWithActions.mapIndexed { index, habit ->
             if (index == 0) {
@@ -200,8 +200,8 @@ class DashboardViewModelTest {
     @Test
     fun `Given non-continuous item orders When moving an item Then it is persisted in the DB`() = runTest {
         // Given
-        val habit1 = HabitEntity(id = 1, name = "First habit", color = ColorEntity.Yellow, order = 0, false, "")
-        val habit2 = HabitEntity(id = 2, name = "Second habit", color = ColorEntity.Red, order = 9, false, "")
+        val habit1 = HabitEntity(id = 1, name = "First habit", color = ColorEntity.Yellow, order = 0, false, notifications_enabled = false,notes="")
+        val habit2 = HabitEntity(id = 2, name = "Second habit", color = ColorEntity.Red, order = 9, false, notifications_enabled = false, notes="")
         given(dao.getHabitPair(1, 2)).willReturn(listOf(habit1, habit2))
 
         val updateNotificationFlow = MutableSharedFlow<Unit>(
@@ -235,9 +235,9 @@ class DashboardViewModelTest {
     @Test
     fun `When moving multiple items Then they are persisted in consistent order to the DB`() = runTest {
         // Given
-        val habit1 = HabitEntity(id = 1, name = "First habit", color = ColorEntity.Yellow, order = 0, false, "")
-        val habit2 = HabitEntity(id = 2, name = "Second habit", color = ColorEntity.Red, order = 1, false, "")
-        val habit3 = HabitEntity(id = 3, name = "Third habit", color = ColorEntity.Red, order = 2, false, "")
+        val habit1 = HabitEntity(id = 1, name = "First habit", color = ColorEntity.Yellow, order = 0, false, notifications_enabled = false, notes="")
+        val habit2 = HabitEntity(id = 2, name = "Second habit", color = ColorEntity.Red, order = 1, false,notifications_enabled = false,notes= "")
+        val habit3 = HabitEntity(id = 3, name = "Third habit", color = ColorEntity.Red, order = 2, false,notifications_enabled = false,notes= "")
         given(dao.getHabitPair(1, 2)).willReturn(listOf(habit1, habit2))
         given(dao.getHabitPair(1, 3)).willReturn(listOf(habit1.copy(order = 1), habit3))
 
@@ -283,8 +283,8 @@ class DashboardViewModelTest {
     @Test
     fun `Given error in handling the event When moving an item Then error is handled and processing continues`() = runTest {
         // Given
-        val habit1 = HabitEntity(id = 5, name = "First habit", color = ColorEntity.Yellow, order = 0, false, "")
-        val habit2 = HabitEntity(id = 6, name = "Second habit", color = ColorEntity.Red, order = 1, false, "")
+        val habit1 = HabitEntity(id = 5, name = "First habit", color = ColorEntity.Yellow, order = 0, false, notifications_enabled = false,notes="")
+        val habit2 = HabitEntity(id = 6, name = "Second habit", color = ColorEntity.Red, order = 1, false, notifications_enabled = false,notes="")
         given(dao.getHabitPair(5, 6)).willReturn(listOf(habit1, habit2))
 
         val updateNotificationFlow = MutableSharedFlow<Unit>(

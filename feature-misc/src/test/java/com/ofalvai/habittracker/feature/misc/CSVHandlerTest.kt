@@ -30,9 +30,9 @@ class CSVHandlerTest {
     fun `Habit list export test`() {
         // Given
         val habits = listOf(
-            Habit(1, "Meditation", Habit.Color.Blue, 0, false, ""),
-            Habit(2, "Meditation", Habit.Color.Yellow, 1, false, "Notes notes notes"),
-            Habit(3, "Meditation", Habit.Color.Red, 3, true, "Multi-line \n description")
+            Habit(1, "Meditation", Habit.Color.Blue, 0, false, notifications_enabled = false,notes=""),
+            Habit(2, "Meditation", Habit.Color.Yellow, 1, false, notifications_enabled = false,notes="Notes notes notes"),
+            Habit(3, "Meditation", Habit.Color.Red, 3, true, notifications_enabled = false,notes="Multi-line \n description")
         )
 
         // When
@@ -115,9 +115,9 @@ class CSVHandlerTest {
 
         // Then
         val expectedHabitList = listOf(
-            Habit(1, "Meditation", Habit.Color.Blue, 0, false, ""),
-            Habit(2, "Meditation", Habit.Color.Yellow, 1, false, "Notes notes notes"),
-            Habit(3, "Meditation", Habit.Color.Red, 3, true, "Multi-line \n description")
+            Habit(1, "Meditation", Habit.Color.Blue, 0, false, notifications_enabled = false,notes=""),
+            Habit(2, "Meditation", Habit.Color.Yellow, 1, false, notifications_enabled = false,notes="Notes notes notes"),
+            Habit(3, "Meditation", Habit.Color.Red, 3, true, notifications_enabled = false,notes="Multi-line \n description")
         )
         assertEquals(expectedHabitList, habitList)
     }
@@ -176,7 +176,7 @@ class CSVHandlerTest {
     fun `Habit list with time export test`() {
         // Given
         val habits = listOf(
-            Habit(1, "Meditation", Habit.Color.Blue, 0, false, "", java.time.LocalTime.of(10, 30))
+            Habit(1, "Meditation", Habit.Color.Blue, 0, false, "", notifications_enabled = false,time=java.time.LocalTime.of(10, 30))
         )
 
         // When
@@ -200,7 +200,7 @@ class CSVHandlerTest {
 
         // Then
         val expectedHabitList = listOf(
-            Habit(1, "Meditation", Habit.Color.Blue, 0, false, "", java.time.LocalTime.of(10, 30))
+            Habit(1, "Meditation", Habit.Color.Blue, 0, false, "", notifications_enabled = false,time=java.time.LocalTime.of(10, 30))
         )
         assertEquals(expectedHabitList, habitList)
     }

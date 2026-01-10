@@ -109,7 +109,7 @@ class ExportViewModelTest {
 
         }
         val viewModel = viewModel(streamOpener)
-        val habit = Habit(id = 1, name = "Meditation", color = Habit.Color.Blue, order = 0, archived = false, notes = "")
+        val habit = Habit(id = 1, name = "Meditation", color = Habit.Color.Blue, order = 0, archived = false, notifications_enabled = false,notes= "")
         val backupFileURI = URI.create("mock")
         given(dao.getHabits()).willReturn(listOf(habit))
         given(dao.getAllActions()).willReturn(flowOf(emptyList()))
@@ -168,7 +168,7 @@ class ExportViewModelTest {
         val actionTimestamp = Instant.now()
         val streamOpener = object : StreamOpener {
             override fun openInputStream(uri: URI): InputStream {
-                val habits = listOf(Habit(id = 1, name = "Meditation", color = Habit.Color.Blue, order = 0, archived = false, notes = ""))
+                val habits = listOf(Habit(id = 1, name = "Meditation", color = Habit.Color.Blue, order = 0, archived = false, notifications_enabled = false,notes = ""))
                 val actions = listOf(Action(id = 1, habit_id = 1, timestamp = actionTimestamp))
                 val content = BackupContent(
                     habitsCSV = CSVHandler.exportHabitList(habits).toString(),
@@ -212,7 +212,7 @@ class ExportViewModelTest {
         val actionTimestamp = Instant.now()
         val streamOpener = object : StreamOpener {
             override fun openInputStream(uri: URI): InputStream {
-                val habits = listOf(Habit(id = 1, name = "Meditation", color = Habit.Color.Blue, order = 0, archived = false, notes = ""))
+                val habits = listOf(Habit(id = 1, name = "Meditation", color = Habit.Color.Blue, order = 0, archived = false, notifications_enabled = false,notes = ""))
                 val actions = listOf(Action(id = 1, habit_id = 1, timestamp = actionTimestamp))
                 val content = BackupContent(
                     habitsCSV = CSVHandler.exportHabitList(habits).toString(),

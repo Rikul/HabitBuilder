@@ -43,6 +43,8 @@ class HabitStatsTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 0,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val habit2 = Habit(
@@ -51,6 +53,8 @@ class HabitStatsTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 1,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val habit3 = Habit(
@@ -59,6 +63,8 @@ class HabitStatsTest : BaseInstrumentedTest() {
             color = Habit.Color.Green,
             order = 2,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
         val habit4 = Habit(
@@ -67,6 +73,8 @@ class HabitStatsTest : BaseInstrumentedTest() {
             color = Habit.Color.Yellow,
             order = 3,
             archived = false,
+            notifications_enabled = false,
+
             notes = ""
         )
 
