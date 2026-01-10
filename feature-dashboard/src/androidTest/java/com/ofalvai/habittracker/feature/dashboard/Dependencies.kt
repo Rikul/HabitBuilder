@@ -23,6 +23,7 @@ import androidx.room.Room
 import com.ofalvai.habittracker.core.database.AppDatabase
 import com.ofalvai.habittracker.core.database.HabitDao
 import com.ofalvai.habittracker.core.database.PersistenceModule
+import com.ofalvai.habittracker.feature.misc.settings.AppInfo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -50,5 +51,15 @@ internal object MainThreadPersistenceModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(app: Application): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
+
+    @Provides
+    @Singleton
+    fun provideAppInfo(): AppInfo = AppInfo(
+        versionName = "test-version",
+        buildType = "debug",
+        appId = "com.ofalvai.habittracker.test",
+        urlPrivacyPolicy = "https://example.com/privacy",
+        urlSourceCode = "https://example.com/source"
+    )
 }
 
