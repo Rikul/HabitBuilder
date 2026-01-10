@@ -150,6 +150,12 @@ dependencies {
     kspDebug libs.showkase.processor
 
     testImplementation libs.kotlin.coroutines.test
+
+    androidTestImplementation libs.androidx.uiautomator
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+
   implementation 'com.google.dagger:hilt-core:2.51.1'
   implementation 'androidx.compose.foundation:foundation-layout-android:1.5.4'
   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
