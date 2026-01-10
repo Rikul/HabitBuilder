@@ -68,6 +68,11 @@ fun SettingsScreen(
         viewModel.setCrashReportingEnabled(it)
         Toast.makeText(context, R.string.settings_crash_reporting_restart_message, Toast.LENGTH_LONG).show()
     }
+    val notificationsEnabled by viewModel.notificationsEnabled.collectAsState()
+    val onNotificationsChange: (Boolean) -> Unit = {
+        viewModel.setNotificationsEnabled(it)
+    }
+
     val dynamicColorEnabled by viewModel.dynamicColor.collectAsState()
     val onDynamicColorChange: (Boolean) -> Unit = {
         viewModel.setDynamicColorEnabled(it)
@@ -76,6 +81,7 @@ fun SettingsScreen(
     SettingsScreen(
         viewModel.appInfo,
         crashReportingEnabled,
+        notificationsEnabled,
         dynamicColorEnabled,
         navigateBack,
         onRateClick,
@@ -83,6 +89,7 @@ fun SettingsScreen(
         navigateToLicenses,
         onPrivacyClick,
         onCrashReportingChange,
+        onNotificationsChange,
         onDynamicColorChange,
         debugSettings
     )
@@ -93,6 +100,7 @@ fun SettingsScreen(
 fun SettingsScreen(
     appInfo: AppInfo,
     crashReportingEnabled: Boolean,
+    notificationsEnabled: Boolean,
     dynamicColorEnabled: Boolean,
     onBack: () -> Unit,
     onRateClick: () -> Unit,
@@ -100,6 +108,7 @@ fun SettingsScreen(
     onLicensesClick: () -> Unit,
     onPrivacyClick: () -> Unit,
     onCrashReportingChange: (Boolean) -> Unit,
+    onNotificationsChange: (Boolean) -> Unit,
     onDynamicColorChange: (Boolean) -> Unit,
     debugSettings: @Composable () -> Unit
 ) {
@@ -124,6 +133,11 @@ fun SettingsScreen(
                     onCheckedChange = onDynamicColorChange
                 )
             }
+            SwitchSetting(
+                name = "Enable Notifications", // Text hardcoded as resource string might not exist. If R.string exists use it. I'll hardcode or create resource if I could.
+                checked = notificationsEnabled,
+                onCheckedChange = onNotificationsChange
+            )
             SwitchSetting(
                 name = stringResource(R.string.settings_item_crash_reporting),
                 checked = crashReportingEnabled,
@@ -247,6 +261,7 @@ fun PreviewSettingsScreen() {
         SettingsScreen(
             appInfo = AppInfo(versionName = "1.0.0", buildType = "debug", appId = "com.ofalvai.habittracker", urlPrivacyPolicy = "", urlSourceCode = ""),
             crashReportingEnabled = true,
+            notificationsEnabled = true,
             dynamicColorEnabled = true,
             onBack = {},
             onSourceClick = {},
@@ -254,6 +269,7 @@ fun PreviewSettingsScreen() {
             onPrivacyClick = {},
             onRateClick = {},
             onCrashReportingChange = {},
+            onNotificationsChange = {},
             onDynamicColorChange = {},
             debugSettings = {}
         )

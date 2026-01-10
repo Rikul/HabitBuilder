@@ -33,10 +33,10 @@ class SampleDataInserter @Inject constructor(private val dao: HabitDao) {
         val today = LocalDate.now()
 
         val habits = listOf(
-            Habit(id = 1, name = "Meditate", color = Habit.Color.Yellow, order = 0, archived = false, notes = "", time = LocalTime.of(7, 0)),
-            Habit(id = 2, name = "Exercise for 10 min", color = Habit.Color.Blue, order = 1, archived = false, notes = ""),
-            Habit(id = 3, name = "Read for 20 min", color = Habit.Color.Red, order = 3, archived = false, notes = ""),
-            Habit(id = 4, name = "Plan my day", color = Habit.Color.Green, order = 4, archived = false, notes = "", time = LocalTime.of(8, 30)),
+            Habit(id = 1, name = "Meditate", color = Habit.Color.Yellow, order = 0, archived = false, notes = "", time = LocalTime.of(7, 0), notifications_enabled = false),
+            Habit(id = 2, name = "Exercise for 10 min", color = Habit.Color.Blue, order = 1, archived = false, notes = "", notifications_enabled = false),
+            Habit(id = 3, name = "Read for 20 min", color = Habit.Color.Red, order = 3, archived = false, notes = "", notifications_enabled = false),
+            Habit(id = 4, name = "Plan my day", color = Habit.Color.Green, order = 4, archived = false, notes = "", time = LocalTime.of(8, 30), notifications_enabled = false),
         )
 
         dao.insertHabits(habits)

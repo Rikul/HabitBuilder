@@ -26,7 +26,7 @@ import com.ofalvai.habittracker.core.database.entity.HabitWithActions as HabitWi
 fun mapHabitEntityToModel(habitsWithActions: List<HabitWithActionsEntity>): ImmutableList<HabitWithActions> {
     return habitsWithActions.map {
         HabitWithActions(
-            habit = Habit(it.habit.id, it.habit.name, it.habit.color.toUIColor(), it.habit.notes, it.habit.time),
+            habit = Habit(it.habit.id, it.habit.name, it.habit.color.toUIColor(), it.habit.notes, it.habit.time, it.habit.notifications_enabled),
             actions = actionsToRecentDays(it.actions),
             totalActionCount = it.actions.size,
             actionHistory = actionsToHistory(it.actions)
@@ -41,7 +41,8 @@ fun Habit.toEntity(order: Int, archived: Boolean) = HabitEntity(
     order = order,
     archived = archived,
     notes = this.notes,
-    time = this.time
+    time = this.time,
+    notifications_enabled = this.notificationsEnabled
 )
 
 fun HabitEntity.Color.toUIColor(): Habit.Color = when (this) {

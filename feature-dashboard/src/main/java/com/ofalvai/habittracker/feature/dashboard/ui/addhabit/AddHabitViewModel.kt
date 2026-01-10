@@ -30,12 +30,16 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.ofalvai.habittracker.core.common.AppPreferences
+import com.ofalvai.habittracker.feature.dashboard.notification.HabitNotificationManager
 
 @HiltViewModel
 class AddHabitViewModel @Inject constructor(
     private val dao: HabitDao,
     private val onboardingManager: OnboardingManager,
-    private val telemetry: Telemetry
+    private val telemetry: Telemetry,
+    private val appPreferences: AppPreferences,
+    private val notificationManager: com.ofalvai.habittracker.core.common.HabitNotificationScheduler
 ) : ViewModel() {
 
     private val backNavigationEventChannel = Channel<Unit>(Channel.BUFFERED)
@@ -46,7 +50,13 @@ class AddHabitViewModel @Inject constructor(
             try {
                 val habitCount = dao.getTotalHabitCount().first()
                 val habitEntity = habit.toEntity(order = habitCount, archived = false)
-                dao.insertHabits(listOf(habitEntity))
+                val newIds = dao.insertHabits(listOf(habitEntity))
+                val newId = newIds.first().toInt()
+                
+                if (appPreferences.notificationsEnabled && habit.notificationsEnabled) {
+                    notificationManager.scheduleNotification(newId, habit.name, habit.time)
+                }
+
                 onboardingManager.firstHabitCreated()
                 backNavigationEventChannel.send(Unit)
             } catch (e: Throwable) {

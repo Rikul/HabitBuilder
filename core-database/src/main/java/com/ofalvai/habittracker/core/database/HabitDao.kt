@@ -29,7 +29,7 @@ interface HabitDao {
     suspend fun getHabits(): List<Habit>
 
     @Insert
-    suspend fun insertHabits(habits: List<Habit>)
+    suspend fun insertHabits(habits: List<Habit>): List<Long>
 
     @Delete(entity = Habit::class)
     suspend fun deleteHabit(habitById: HabitById)

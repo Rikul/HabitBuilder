@@ -63,8 +63,33 @@ class HabitDetailViewModel @Inject constructor(
     private val dao: HabitDao,
     private val actionRepository: ActionRepository,
     private val telemetry: Telemetry,
-    onboardingManager: OnboardingManager
+    onboardingManager: OnboardingManager,
+    private val appPreferences: com.ofalvai.habittracker.core.common.AppPreferences,
+    private val notificationManager: com.ofalvai.habittracker.core.common.HabitNotificationScheduler
 ) : ViewModel() {
+   // ...
+
+    fun updateHabit(habit: Habit) {
+        viewModelScope.launch {
+            dao.updateHabit(habit.toEntity(order = habitOrder ?: 0, archived = false))
+            
+            if (appPreferences.notificationsEnabled && habit.notificationsEnabled) {
+                notificationManager.scheduleNotification(habit.id, habit.name, habit.time)
+            } else {
+                notificationManager.cancelNotification(habit.id)
+            }
+            
+            fetchHabitDetails(habit.id)
+        }
+    }
+
+    fun archiveHabit(habit: Habit) {
+        viewModelScope.launch {
+            dao.updateHabit(habit.toEntity(order = habitOrder ?: 0, archived = true))
+            notificationManager.cancelNotification(habit.id) // Cancel when archived
+            eventChannel.send(HabitDetailEvent.BackNavigation)
+        }
+    }
 
     val habitWithActions = MutableStateFlow<Result<HabitWithActions>>(Result.Loading)
     val singleStats = MutableStateFlow(initialSingleStats)
@@ -139,19 +164,6 @@ class HabitDetailViewModel @Inject constructor(
         }
     }
 
-    fun updateHabit(habit: Habit) {
-        viewModelScope.launch {
-            dao.updateHabit(habit.toEntity(order = habitOrder ?: 0, archived = false))
-            fetchHabitDetails(habit.id)
-        }
-    }
-
-    fun archiveHabit(habit: Habit) {
-        viewModelScope.launch {
-            dao.updateHabit(habit.toEntity(order = habitOrder ?: 0, archived = true))
-            eventChannel.send(HabitDetailEvent.BackNavigation)
-        }
-    }
 
     fun switchChartType(newType: ActionCountChart.Type) {
         try {

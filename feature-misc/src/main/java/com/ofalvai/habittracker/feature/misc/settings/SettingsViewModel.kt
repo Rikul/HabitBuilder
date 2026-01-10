@@ -17,9 +17,11 @@
 package com.ofalvai.habittracker.feature.misc.settings
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ofalvai.habittracker.core.common.AppPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class AppInfo(
@@ -35,14 +37,18 @@ data class AppInfo(
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val appPreferences: AppPreferences,
-    val appInfo: AppInfo
+    val appInfo: AppInfo,
+    private val habitDao: com.ofalvai.habittracker.core.database.HabitDao,
+    private val notificationManager: com.ofalvai.habittracker.core.common.HabitNotificationScheduler
 ) : ViewModel() {
 
     val crashReportingEnabled = MutableStateFlow(true)
+    val notificationsEnabled = MutableStateFlow(true)
     val dynamicColor = appPreferences.dynamicColorEnabled
 
     init {
         crashReportingEnabled.value = appPreferences.crashReportingEnabled
+        notificationsEnabled.value = appPreferences.notificationsEnabled
     }
 
     fun setCrashReportingEnabled(enabled: Boolean) {
@@ -50,6 +56,22 @@ class SettingsViewModel @Inject constructor(
         // Bugsnag can't be disabled at runtime, but the next app restart won't initialize it
         appPreferences.crashReportingEnabled = enabled
         crashReportingEnabled.value = enabled
+    }
+
+    fun setNotificationsEnabled(enabled: Boolean) {
+        appPreferences.notificationsEnabled = enabled
+        notificationsEnabled.value = enabled
+
+        viewModelScope.launch {
+             val habits = habitDao.getHabits()
+             habits.forEach { habit ->
+                 if (enabled && habit.notifications_enabled) {
+                     notificationManager.scheduleNotification(habit.id, habit.name, habit.time)
+                 } else {
+                     notificationManager.cancelNotification(habit.id)
+                 }
+             }
+        }
     }
 
     fun setDynamicColorEnabled(enabled: Boolean) {

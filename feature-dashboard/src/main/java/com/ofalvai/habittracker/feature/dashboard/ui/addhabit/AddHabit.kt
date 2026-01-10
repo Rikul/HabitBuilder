@@ -16,6 +16,8 @@
 
 package com.ofalvai.habittracker.feature.dashboard.ui.addhabit
 
+import androidx.compose.ui.Alignment
+
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -61,6 +63,8 @@ import com.ofalvai.habittracker.core.ui.theme.PreviewTheme
 import com.ofalvai.habittracker.core.ui.theme.composeColor
 import com.ofalvai.habittracker.feature.dashboard.R
 import com.ofalvai.habittracker.feature.dashboard.ui.dashboard.Suggestions
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.collections.immutable.ImmutableList
 import com.ofalvai.habittracker.core.ui.R as coreR
 
@@ -85,7 +89,8 @@ fun AddHabitForm(
     var name by rememberSaveable { mutableStateOf("") }
     var notes by rememberSaveable { mutableStateOf("") }
     var color by rememberSaveable { mutableStateOf(Habit.DEFAULT_COLOR) }
-    var time by remember { mutableStateOf(initialTime) }
+    var time by rememberSaveable { mutableStateOf(initialTime) }
+    var isReminderChecked by rememberSaveable { mutableStateOf(false) }
     var isNameValid by remember { mutableStateOf(true) }
 
     val onSaveClick: () -> Unit = {
@@ -181,9 +186,41 @@ fun AddHabitForm(
             }
 
             if (time != null) {
-                OutlinedButton(onClick = { time = null }) {
+                OutlinedButton(onClick = {
+                    time = null
+                    isReminderChecked = false
+                }) {
                     Icon(Icons.Rounded.Close, contentDescription = stringResource(coreR.string.common_clear))
                 }
+            }
+        }
+
+        val notificationPermissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission(),
+            onResult = { }
+        )
+
+        if (time != null) {
+            Row(
+                modifier = Modifier.padding(horizontal = 32.dp).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                androidx.compose.material3.Checkbox(
+                    checked = isReminderChecked,
+                    onCheckedChange = { isChecked ->
+                        isReminderChecked = isChecked
+                        if (isChecked && android.os.Build.VERSION.SDK_INT >= 33) {
+                             if (androidx.core.content.ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                                 notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                             }
+                        }
+                    }
+                )
+                Text(
+                    text = "Set Reminder",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
         }
 
@@ -191,7 +228,20 @@ fun AddHabitForm(
 
         Button(
             modifier = Modifier.padding(top = 8.dp, start = 32.dp, end = 32.dp),
-            onClick = onSaveClick,
+            onClick = {
+                if (name.isEmpty()) {
+                    isNameValid = false
+                } else {
+                    val habit = Habit(
+                        name = name,
+                        color = color,
+                        notes = notes, 
+                        time = time,
+                        notificationsEnabled = isReminderChecked
+                    )
+                    onSave(habit)
+                }
+            },
             colors = ButtonDefaults.buttonColors(containerColor = selectedHabitColor)
         ) {
             Text(

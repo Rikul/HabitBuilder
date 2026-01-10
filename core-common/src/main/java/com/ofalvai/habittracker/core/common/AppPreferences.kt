@@ -28,6 +28,7 @@ private const val KEY_ONBOARDING_FIRST_ACTION_COMPLETED = "onboarding_first_acti
 private const val KEY_ONBOARDING_HABIT_DETAILS_OPENED = "onboarding_habit_details_opened"
 private const val KEY_ONBOARDING_INSIGHTS_OPENED = "onboarding_insights_opened"
 private const val KEY_CRASH_REPORTING = "crash_reporting"
+private const val KEY_NOTIFICATIONS_ENABLED = "notifications_enabled"
 private const val KEY_DYNAMIC_COLOR = "dynamic_color"
 
 @Singleton
@@ -61,6 +62,10 @@ class AppPreferences @Inject constructor(
     var crashReportingEnabled: Boolean
         get() = sharedPreferences.getBoolean(KEY_CRASH_REPORTING, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_CRASH_REPORTING, value).apply()
+
+    var notificationsEnabled: Boolean
+        get() = sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_NOTIFICATIONS_ENABLED, value).apply()
     
     // This preference is observable so that the app theme can be recomposed instantly
     // TODO: it would be nice to migrate to DataStore, which supports observability out of the box

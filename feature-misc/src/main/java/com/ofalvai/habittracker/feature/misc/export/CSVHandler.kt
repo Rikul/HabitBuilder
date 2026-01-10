@@ -73,7 +73,8 @@ internal object CSVHandler {
                 order = it.get("order").toInt(),
                 archived = it.get("archived").toBoolean(),
                 notes = it.get("notes"),
-                time = time
+                time = time,
+                notifications_enabled = false
             )
         }
         return habits

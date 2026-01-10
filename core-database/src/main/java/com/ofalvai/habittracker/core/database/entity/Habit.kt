@@ -30,7 +30,8 @@ data class Habit(
     val order: Int,
     val archived: Boolean,
     val notes: String,
-    val time: LocalTime? = null
+    val time: LocalTime? = null,
+    val notifications_enabled: Boolean
 ) {
 
     enum class Color {

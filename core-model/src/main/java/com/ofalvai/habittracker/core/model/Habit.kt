@@ -27,7 +27,8 @@ data class Habit(
     val name: String,
     val color: Color,
     val notes: String,
-    val time: LocalTime? = null
+    val time: LocalTime? = null,
+    val notificationsEnabled: Boolean = false
 ) {
 
     companion object {

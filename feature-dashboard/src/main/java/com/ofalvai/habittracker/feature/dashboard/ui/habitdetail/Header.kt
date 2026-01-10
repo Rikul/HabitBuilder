@@ -65,6 +65,10 @@ import com.ofalvai.habittracker.feature.dashboard.R
 import com.ofalvai.habittracker.feature.dashboard.ui.model.SingleStats
 import kotlin.math.roundToInt
 import com.ofalvai.habittracker.core.ui.R as coreR
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.Alignment
+import androidx.compose.runtime.saveable.rememberSaveable
 
 private const val SCROLL_COLLAPSE_THRESHOLD = 10
 
@@ -135,23 +139,37 @@ private fun HabitHeaderEditingContent(
     onSave: (Habit) -> Unit,
     onArchive: (Habit) -> Unit
 ) {
-    var editingName by remember(habitDetails.habit.name) {
+    var editingName by rememberSaveable(habitDetails.habit.name) {
         mutableStateOf(habitDetails.habit.name)
     }
-    var editingNotes by remember(habitDetails.habit.notes) {
+    var editingNotes by rememberSaveable(habitDetails.habit.notes) {
         mutableStateOf(habitDetails.habit.notes)
     }
-    var editingColor by remember(habitDetails.habit.color) {
+    var editingColor by rememberSaveable(habitDetails.habit.color) {
         mutableStateOf(habitDetails.habit.color)
     }
-    var editingTime by remember(habitDetails.habit.time) {
+    var editingTime by rememberSaveable(habitDetails.habit.time) {
         mutableStateOf(habitDetails.habit.time)
     }
+
+    val context = LocalContext.current
+    var isReminderChecked by rememberSaveable(habitDetails.habit.id, habitDetails.habit.notificationsEnabled) {
+        mutableStateOf(habitDetails.habit.notificationsEnabled)
+    }
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { }
+    )
+
     var isNameValid by remember { mutableStateOf(true) }
     val onSaveClick = {
         if (isNameValid) {
             val newValue = habitDetails.habit.copy(
-                name = editingName, color = editingColor, notes = editingNotes, time = editingTime
+                name = editingName,
+                color = editingColor,
+                notes = editingNotes,
+                time = editingTime,
+                notificationsEnabled = isReminderChecked
             )
             onSave(newValue)
         }
@@ -187,7 +205,6 @@ private fun HabitHeaderEditingContent(
             )
         )
 
-        val context = LocalContext.current
         val timeFormatter = remember { DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT) }
 
         Row(
@@ -211,7 +228,10 @@ private fun HabitHeaderEditingContent(
             }
 
             if (editingTime != null) {
-                OutlinedButton(onClick = { editingTime = null }) {
+                OutlinedButton(onClick = {
+                    editingTime = null
+                    isReminderChecked = false
+                }) {
                     Icon(Icons.Rounded.Close, contentDescription = stringResource(coreR.string.common_clear))
                 }
             }
@@ -221,6 +241,30 @@ private fun HabitHeaderEditingContent(
             color = editingColor,
             onColorPick = { editingColor = it }
         )
+
+        if (editingTime != null) {
+            Row(
+                modifier = Modifier.padding(horizontal = 32.dp).fillMaxWidth(),
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            ) {
+                androidx.compose.material3.Checkbox(
+                    checked = isReminderChecked,
+                    onCheckedChange = { isChecked ->
+                        isReminderChecked = isChecked
+                        if (isChecked && android.os.Build.VERSION.SDK_INT >= 33) {
+                             if (androidx.core.content.ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                                 notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                             }
+                        }
+                    }
+                )
+                Text(
+                    text = "Set Reminder",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+        }
     }
 }
 
